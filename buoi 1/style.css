@@ -1,0 +1,15 @@
+p {
+    color:blue;
+}
+.text_red{
+    color: red;
+}
+#my_paragraph{
+    color: royalblue;
+}
+img:hover{
+    cursor: pointer;
+}
+.size_30px{
+    font-size: 30px;
+}

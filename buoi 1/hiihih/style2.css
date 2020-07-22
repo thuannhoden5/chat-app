@@ -1,0 +1,23 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.container {
+    display: flex;
+}
+.child1{
+    background-color: #DAE8FC;
+    height: 700px;
+    width: 200px;
+}
+.child3{
+    background-color: #d5e8d4;
+    height: 800px;
+    width: 200px;
+}
+element.style{
+    flex-basis: 0;
+    flex-grow: 1;
+    padding: 10px;
+}
