@@ -8,31 +8,7 @@
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
-    <div class="login_container">
-        <div class="aside_right">
-            <div class="header">
-                <h3>MindX chat</h3>
-            </div>
-            <form id="login_form">
-                <div class="input_wrapper">
-                    <input type="text" placeholder="Email" name="email">
-                    <div class="error" id="email_error"></div>
-                </div>
-                <div class="input_wrapper">
-                    <input type="password" placeholder="Password" name="password">
-                    <div class="error" id="password_error"></div>
-                </div>
-                <div class="form_action">
-                    <span id="redirect_to_register" onclick="redirect_to_register()">
-                        Don't have an account? Register ?
-                    </span>
-                    <button class="btn" type="submit">
-                        Login
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <h1>`Welcome, ${model.currentUser.displayName}`</h1>
     <div id="app"></div>
     <script src="..//js/controller.js"></script>
     <script src="..//js/model.js"></script>
