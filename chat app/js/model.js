@@ -46,7 +46,6 @@ model.login = async (dataLogin) => {
     if (err.code === 'auth/wrong-password') {
       document.getElementById('password-error').innerText = 'You have entered an invalid password '
     }
-    console.log(model.currentUser.displayName)
     console.log(err)
   }
 }
