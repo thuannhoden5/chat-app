@@ -1,17 +1,17 @@
 const view = {}
 view.setActiveScreen = (screenName) => {
   switch (screenName) {
-    case 'welcomeScreen' :
+    case 'welcomeScreen':
       document.getElementById('app')
-      .innerHTML = components.welcomeScreen
-    break;
-    case 'loginScreen' :
-    // in ra man login
+        .innerHTML = components.welcomeScreen
+      break;
+    case 'loginScreen':
+      // in ra man login
       document.getElementById('app').innerHTML = components.loginScreen
       document.getElementById('redirect-to-register')
-      .addEventListener('click', () => {
-        view.setActiveScreen('registerScreen')
-      })
+        .addEventListener('click', () => {
+          view.setActiveScreen('registerScreen')
+        })
       const loginForm = document.getElementById('login-form')
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -22,10 +22,10 @@ view.setActiveScreen = (screenName) => {
         }
         controller.login(data)
       })
-    break;
-    case 'registerScreen' :
+      break;
+    case 'registerScreen':
       document.getElementById('app')
-      .innerHTML = components.registerScreen
+        .innerHTML = components.registerScreen
       const registerForm = document.getElementById('register-form')
       registerForm.addEventListener('submit', (event) => {
         event.preventDefault()
@@ -40,13 +40,14 @@ view.setActiveScreen = (screenName) => {
         controller.register(data)
       })
       document.getElementById('redirect-to-login')
-      .addEventListener('click', () => {
-        view.setActiveScreen('loginScreen')
-      })
-    break;
-    
+        .addEventListener('click', () => {
+          view.setActiveScreen('loginScreen')
+        })
+      break;
+
     case 'chatScreen':
-            document.getElementById('app').innerHTML=components.chatScreen
-            document.getElementById('welcome_user').innerHTML = `Welcome to ${model.currentUser.displayName}`
+      document.getElementById('app').innerHTML = components.chatScreen
+      document.getElementById('welcome_user').innerHTML = `Welcome ${model.currentUser.displayName}`
+      break;
   }
 }

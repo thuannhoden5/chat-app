@@ -1,5 +1,5 @@
 const init = () => {
-  // Your web app's Firebase configuration
+  //Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyChEB_n0303_h-jH_2cH0sLjPPHDe5f2n4",
     authDomain: "chat-app-ab3af.firebaseapp.com",
@@ -9,9 +9,10 @@ const init = () => {
     messagingSenderId: "1069467686094",
     appId: "1:1069467686094:web:02675c001109b3be032c9f"
   };
-  // Initialize Firebase
+  //Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   console.log(firebase.app().name)
   view
-  .setActiveScreen('registerScreen')
+    .setActiveScreen('registerScreen')
 }
+window.onload = init;
