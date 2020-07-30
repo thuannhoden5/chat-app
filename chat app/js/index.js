@@ -12,7 +12,12 @@ const init = () => {
   //Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   console.log(firebase.app().name)
-  view
-    .setActiveScreen('registerScreen')
+  view.setActiveScreen('loginScreen')
+
+    firebase.auth().onAuthStateChanged( function ( user )  {
+    if (user) {
+       view.setActiveScreen='chatScreen'
+      }
+    }); 
 }
 window.onload = init;

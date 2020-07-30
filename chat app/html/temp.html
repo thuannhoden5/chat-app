@@ -6,9 +6,42 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
     
+    <div class="chat-container">
+        <div class="header">
+            MindX Chat
+        </div>
+        <div class="main">
+            <div class="conversation-detail">
+                <div class="conversation-header">
+                    First conversation
+                </div>
+                <div class="list-messages">
+                    <div class="message-container mine">
+                        <div class="content">Hello World</div>
+                    </div>
+                </div>
+                <div class="message-container their">
+                    <div class="owner">abc@gamil.com</div>
+                    <div class="content">Hello World</div>
+                </div>
+                <form id='send-message-form'>
+                    <div class="input-wrapper">
+                        <input type="text" name="message"
+                        placeholder="Type a message">
+                    </div>
+                    <button type="submit">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div id="app"></div>
     <script src="..//js/controller.js"></script>
     <script src="..//js/model.js"></script>
