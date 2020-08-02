@@ -52,6 +52,9 @@ view.setActiveScreen = (screenName) => {
         document.getElementById('send-message-form')
         sendMessageForm.addEventListener('submit', (e) => {
           e.preventDefault()
+          if(sendMessageForm.message.value.trim()===''){
+            return
+          }
           const message = {
             content: sendMessageForm.message.value,
             owner: model.currentUser.email
@@ -71,17 +74,17 @@ view.setActiveScreen = (screenName) => {
     const messageWrapper = document.createElement('div')
     messageWrapper.classList.add('message-container')
     if(message.owner === model.currentUser.email) {
-      if(message.content.trim()!==''){
+      
       messageWrapper.classList.add('mine')
       messageWrapper.innerHTML = `
         <div class="content">
           ${message.content}
         </div>
-      `}
+      `
     } else {
       
       messageWrapper.classList.add('their')
-      if(message.content.trim()!==''){
+      
       messageWrapper.innerHTML = `
       <div class="owner">
         ${message.owner}
@@ -89,8 +92,14 @@ view.setActiveScreen = (screenName) => {
       <div class="content">
         ${message.content}
       </div>
-      `}
+      `
     }
     document.querySelector('.list-messages')
     .appendChild(messageWrapper)
   }
+
+  view.getCurrentMessage = async() => {
+    const messages = await firebase.firestore().collection('conversations').get();
+    const listMessages = messages.docs[0].data().messages;
+    return listMessages;
+}
