@@ -96,6 +96,7 @@ view.setActiveScreen = (screenName) => {
     }
     document.querySelector('.list-messages')
     .appendChild(messageWrapper)
+    const listMessage = document.querySelector('.list-messages')
   }
 
   view.getCurrentMessage = async() => {
