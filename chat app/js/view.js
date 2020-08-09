@@ -45,47 +45,81 @@ view.setActiveScreen = (screenName) => {
         })
       break;
 
-      case 'chatScreen' :
-        document.getElementById('app')
+    case 'chatScreen':
+      document.getElementById('app')
         .innerHTML = components.chatScreen
-        const sendMessageForm = 
+      const sendMessageForm =
         document.getElementById('send-message-form')
-        sendMessageForm.addEventListener('submit', (e) => {
-          e.preventDefault()
-          if(sendMessageForm.message.value.trim()===''){
-            return
-          }
-          const message = {
-            content: sendMessageForm.message.value,
-            owner: model.currentUser.email
-          }
-          const botMsg = {
-            content: sendMessageForm.message.value + ' too',
-            owner: 'Bot'
-          }
-          view.addMessage(message)
-          view.addMessage(botMsg)
-          sendMessageForm.message.value = ''
-        })
-    }
+      sendMessageForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        if (sendMessageForm.message.value.trim() === '') {
+          return
+        }
+        const message = {
+          content: sendMessageForm.message.value,
+          owner: model.currentUser.email,
+          createdAt: (new Date()).toISOString()
+        }
+
+        model.addMessage(message)
+
+        sendMessageForm.message.value = ''
+      })
+      model.loadConversations();
+      model.listenConversationsChange()
   }
-  
-  view.addMessage = (message) => {
-    const messageWrapper = document.createElement('div')
-    messageWrapper.classList.add('message-container')
-    if(message.owner === model.currentUser.email) {
-      
-      messageWrapper.classList.add('mine')
-      messageWrapper.innerHTML = `
+}
+model.listenConversationsChange = () => {
+  let isFirstRun = true
+  firebase.firestore()
+    .collection(model.collectionName)
+    .where('users', 'array-contains', model.currentUser.email)
+    .onSnapshot((res) => {
+      if (isFirstRun) {
+        isFirstRun = false;
+        return
+      }
+      const docChanges = res.docChanges()
+      console.log(res.docChanges())
+      for (oneChange of docChanges) {
+        console.log(oneChange)
+        const type = oneChange.type
+        if (type === 'modified') {
+          const docData = getDataFromDoc(oneChange.doc)
+
+          //update lai model.conversation
+          for (let index = 0; index < model.conversations.length; index++) {
+            if (model.conversations[index].id === docData.id) {
+              model.conversations[index] = docData
+            }
+          }
+          // update currentConversation
+          if (docData.id === model.currentConversation.id) {
+            model.currentConversation = docData
+            const lastMessage = docData.messages[docData.messages.length - 1]
+            view.addMessage(lastMessage)
+          }
+        }
+      }
+    })
+}
+// model tuong tac voi database, hien thi bat su kien la view
+view.addMessage = (message) => {
+  const messageWrapper = document.createElement('div')
+  messageWrapper.classList.add('message-container')
+  if (message.owner === model.currentUser.email) {
+
+    messageWrapper.classList.add('mine')
+    messageWrapper.innerHTML = `
         <div class="content">
           ${message.content}
         </div>
       `
-    } else {
-      
-      messageWrapper.classList.add('their')
-      
-      messageWrapper.innerHTML = `
+  } else {
+
+    messageWrapper.classList.add('their')
+
+    messageWrapper.innerHTML = `
       <div class="owner">
         ${message.owner}
       </div>
@@ -93,14 +127,22 @@ view.setActiveScreen = (screenName) => {
         ${message.content}
       </div>
       `
-    }
-    document.querySelector('.list-messages')
-    .appendChild(messageWrapper)
-    const listMessage = document.querySelector('.list-messages')
   }
-
-  view.getCurrentMessage = async() => {
-    const messages = await firebase.firestore().collection('conversations').get();
-    const listMessages = messages.docs[0].data().messages;
-    return listMessages;
+  document.querySelector('.list-messages')
+    .appendChild(messageWrapper)
+}
+view.showCurrentConversation = () => {
+  // doi ten cuoc tro chuyen
+  document
+    .getElementsByClassName('conversation-header')[0]
+    .innerText = model.currentConversation.title
+  // in cac tin nhan len man hinh
+  for (message of model.currentConversation.messages) {
+    view.addMessage(message)
+  }
+  view.scrollToEndElement();
+}
+view.scrollToEndElement = () => {
+  const element = document.querySelector('.list-messages')
+  element.scrollTop = element.scrollHeight
 }

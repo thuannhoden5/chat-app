@@ -1,5 +1,9 @@
 const model = {}
 model.currentUser = undefined
+model.conversations = undefined
+model.currentConversation = undefined
+model.collectionName = 'conversations'
+
 model.register = async (data) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
@@ -50,12 +54,25 @@ model.login = async (dataLogin) => {
   }
 }
 
-model.addMessage = (msg) => {
-  const documentIdAddMsg = 'jvylj2e1yBsWZCAc9hbE'
-  const dataAddMsg = {
-    messages: firebase.firestore.FieldValue.arrayUnion(msg)
+model.addMessage = (message) => {
+  const dataToUpdate = {
+    messages: firebase.firestore.FieldValue.arrayUnion(message)
   }
   firebase.firestore()
-    .collection('conversations').doc(documentIdAddMsg)
-    .update(dataAddMsg)
+    .collection(model.collectionName).doc('jvylj2e1yBsWZCAc9hbE')
+    .update(dataToUpdate)
 };
+
+model.loadConversations = async() => {
+  const response = await firebase.firestore()
+    .collection(model.collectionName)
+    .where('users','array-contains', model.currentUser.email)
+    .get()
+    model.conversations = getDataFromDocs(response.docs)
+    
+    if(model.conversations.length > 0) {
+      model.currentConversation = model.conversations[0]
+      view.showCurrentConversation()
+      console.log(getDataFromDocs(response.docs))
+    }
+}
