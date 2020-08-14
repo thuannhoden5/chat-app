@@ -84,8 +84,8 @@ view.setActiveScreen = (screenName, fromCreateConversation = false) => {
       createConversationForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = {
-          title: createConversationForm.conversationTitle.value,
-          friend: createConversationForm.conversationEmail.value,
+          conversationTitle: createConversationForm.conversationTitle.value,
+          conversationEmail: createConversationForm.conversationEmail.value,
 
         }
         controller.createConversation(data)
