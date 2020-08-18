@@ -77,26 +77,26 @@ model.listenConversationsChange = () => {
     .collection(model.collectionName)
     .where('users', 'array-contains', model.currentUser.email)
     .onSnapshot((res) => {
-      if (isFirstRun) {
+      if(isFirstRun) {
         isFirstRun = false
         return
       }
       const docChanges = res.docChanges()
-      for (oneChange of docChanges) {
+      for(oneChange of docChanges) {
         const type = oneChange.type
-        if (type === 'modified') {
+        if(type === 'modified') {
           const docData = getDataFromDoc(oneChange.doc)
           //update lai model.conversations
-          for (let index = 0; index < model.conversations.length; index++) {
-            if (model.conversations[index].id === docData.id) {
+          for(let index = 0; index < model.conversations.length; index++) {
+            if(model.conversations[index].id === docData.id) {
               model.conversations[index] = docData
             }
           }
           // update model.currentConversation
-          if (docData.id === model.currentConversation.id) {
+          if(docData.id === model.currentConversation.id) {
             model.currentConversation = docData
             const lastMessage =
-              docData.messages[docData.messages.length - 1]
+            docData.messages[docData.messages.length - 1]
             view.addMessage(lastMessage)
             view.scrollToEndElement()
           }
@@ -109,9 +109,8 @@ model.listenConversationsChange = () => {
       }
     })
 }
-model.addConversation = (data) => {
+model.createConversation = (data) => {
   firebase.firestore()
-    .collection(model.collectionName)
-    .add(data)
+  .collection(model.collectionName).add(data)
   view.setActiveScreen('chatScreen', true)
 }
