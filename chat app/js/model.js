@@ -94,11 +94,16 @@ model.listenConversationsChange = () => {
           }
           // update model.currentConversation
           if(docData.id === model.currentConversation.id) {
+            if(docData.users.length !== model.currentConversation.users.length) {
+              view.addUser(docData.users[docData.users.length - 1])
+              view.updateNumberUsers(docData.id, docData.users.length)
+            } else {
+              const lastMessage =
+              docData.messages[docData.messages.length - 1]
+              view.addMessage(lastMessage)
+              view.scrollToEndElement()
+            }
             model.currentConversation = docData
-            const lastMessage =
-            docData.messages[docData.messages.length - 1]
-            view.addMessage(lastMessage)
-            view.scrollToEndElement()
           }
         }
         if(type === 'added') {
@@ -113,4 +118,11 @@ model.createConversation = (data) => {
   firebase.firestore()
   .collection(model.collectionName).add(data)
   view.setActiveScreen('chatScreen', true)
+}
+model.addUser = (user) => {
+  const dataToUpdate = {
+    users: firebase.firestore.FieldValue.arrayUnion(user)
+  }
+  firebase.firestore().collection(model.collectionName).
+  doc(model.currentConversation.id).update(dataToUpdate)
 }
