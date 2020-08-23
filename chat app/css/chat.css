@@ -126,7 +126,32 @@
   .conversation .notification {
     top: 23px;
     right: 5px;
-    
+
   } 
 
+}
+.sidebar {
+  position: absolute;
+  top: 63px;
+  right: 13px;
+  color: #027bfd;
+  display: none;
+}
+@media screen and (max-width : 768px) {
+  .sidebar{
+    display: block;
+  }
+  .aside-right {
+    display: none;
+  }
+}
+.show {
+  position: fixed;
+  display: block !important;
+  right: 0;
+  background: #ffff;
+  width: 30% !important
+}
+.move-sidebar {
+  right: 31%;
 }

@@ -89,6 +89,9 @@ components.chatScreen = `
 <div class="chat-container">
 <div class="header">
   MindX Chat
+  <div class ="sidebar">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+  </div>
 </div>
 <div class="main">
   <div class="aside-left">
